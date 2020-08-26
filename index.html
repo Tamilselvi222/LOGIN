@@ -1,0 +1,113 @@
+<html>
+<head>
+    <title>Weather</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a81368914c.js"></script>   
+    <link src="sanjai.html">
+    <style>
+        .img{
+            
+            position: absolute;
+            top:20%;
+            right:120%;
+            display:flex;
+        }
+        .img img{
+	width:35vw;
+        }
+        input[type=text],input[type=number]{
+            background-color: ghostwhite;
+        }
+        body{
+    font-family:'Poppins',sans-serif;
+}
+.nav-icon{
+  text-decoration: none;
+  color:gainsboro;
+}
+.nav-icon-head{
+  margin-left:80%;
+  color: black;
+}
+    </style>
+    <script>
+        function validate(){
+            var name1=document.getElementById("aname");
+            var location1=document.getElementById("alocation");
+            var namepatternp=/^[A-Za-z]+$/;
+            if(name1.value == "" || !(name1.value.match(namepatternp)) ){
+                alert("Please enter a valid details:\n name: John\n location: London");
+                return false;
+            }
+           else{
+             name1.focus;
+           }
+            
+            
+        }
+    </script>
+</head>
+<body>
+  
+    <form  method="post" action="#" >
+      <nav class="navbar navbar-expand-md bg-primary navbar-dark" style="background-color: cornflowerblue;">
+        <a class="navbar-brand" href="https://www.google.com/search?q=current+location+weather&oq=currtent+location+weath&aqs=chrome.1.69i57j0l7.9005j1j7&sourceid=chrome&ie=UTF-8">
+          <img src="https://images.squarespace-cdn.com/content/v1/5572b7b4e4b0a20071d407d4/1487090874274-FH2ZNWOTRU90UAF5TA2B/ke17ZwdGBToddI8pDm48kCMWMBFcqQftRz-JqZZoIB5Zw-zPPgdn4jUwVcJE1ZvWEtT5uBSRWt4vQZAgTJucoTqqXjS3CfNDSuuf31e0tVFI99ncPZu898P4WAmVYNBp8mgB1qWbp5RirnU_Xvq-XCb8BodarTVrzIWCp72ioWw/Weather+Targeting" class="mr-3" alt="Logo" style="width:30px;">
+      </a><h3>weather</h3>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse navbar-right" id="collapsibleNavbar">
+          <div class="nav-icon-head">
+        <ul class="nav navbar-nav nav-right">
+          <li><b><a href="register.html" style="color:black"><span class="nav-icon"><i class="fas fa-user"></i></span> Sign Up</a></b></li>&emsp;
+          <li><b><a href="index.html" style="color:black"><span class="nav-icon"><i class="fas fa-sign-in-alt"></i></span> Login</a></b></li>&emsp;
+        </ul>
+      </div>
+      </div> 
+      </nav>
+      <br>
+      <br>
+        <div class="container" >
+            <div class="row">
+                <div class="col-md-5 offset-md-6">
+                    <div class="login-form">
+                        
+                        <h3 class="text-center text-dark"><b>LOGIN</b>
+                        </h3><br>
+                        <i class="fas fa-user"></i>
+                            <label for="email">Email</label>
+                              <input type="email" class="form-control" id="email" pattern="[A-Za-z]" name="email" placeholder="Enter email" required>
+                          
+                          <br><i class="fas fa-lock"></i>
+                            <label for="pwd">Password</label>
+                              <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Password" required>
+                        <br>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="float-left" for="exampleCheck1">Remember me</label>
+                            <span class="float-right"><a href="forget.html">Forgot your password</a></span>
+                          </div>
+                          <br>
+                          <div class="form-group text-center mt-2">
+                            <button  class="btnSubmit btn btn-success subbtn" onclick="return validate()" >
+                                <span> <a href="sanjai.html" style="text-decoration: none; color:ghostwhite"> LOGIN</a></span>
+                                </button>
+                    </div>
+                    <div class="form-group text-center">
+                        <button  class="btnSubmit btn btn-primary  subbtn" value="Register">   
+                            <span > <a href="register.html" style="text-decoration: none; color: aliceblue"> Register Now</span>
+                            </button>
+                           
+                </div>
+                <div class="img">
+                    <img src="bg4.svg">
+                </div>
+              </form>
+</body>
+</html> 
