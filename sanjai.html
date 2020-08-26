@@ -1,0 +1,376 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Weather App</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+              rel="stylesheet">
+              <script src="https://kit.fontawesome.com/a81368914c.js"></script>   
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+        
+        <style>
+  body {
+      color: white;
+    background-color: mintcream;
+      font-family: "Poppins", sans-serif;
+      font-size: 16px;
+      font-weight: 200;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .container {
+        background-image: linear-gradient(to bottom right,#64b8eb,#6de598);
+      width: 500px;
+      margin-top: 70px;
+      border-radius: 10px;
+    }
+    
+    .search {
+      width: 100%;
+      padding: 20px 30px;
+      display: flex;
+      justify-content: center;
+      align-content: center;
+    }
+     .search input {
+        width: 350px;
+        height: 40px;
+        border-radius: 40px;
+        padding: 0px 50px 0px 20px;
+        border: none;
+     }
+    .search input:focus {
+          outline: none;
+          box-shadow: 0px 0px 10px 0px rgb(99, 152, 232);
+        }
+        button {
+        width: 40px;
+        height: 40px;
+        border-radius: 30px;
+        border: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+      }
+        button:hover {
+          background-color:#db6504;
+          transition: 0.5s;
+          cursor: pointer;
+        }
+        button:focus {
+          outline: none;
+        }
+        button:active {
+          background-color: #db8c04;
+          transform: scale(0.9);
+        }
+        #find {
+        position: relative;
+        left: -42px;
+        top: 7px;
+        color: white;
+        background-color:#db6504;
+        width: 32px;
+        height: 32px;
+      }
+    
+      #locate {
+        position: relative;
+        top: 3px;
+      }
+    
+      .material-icons {
+        font-size: 22px;
+        padding-top: 5px;
+      }
+      .today-weather {
+      text-align: center;
+      padding: 20px;
+      display: flex;
+    }
+     .today-weather .today-main {
+        width: 240px;
+      }
+      .today-weather #city-name {
+        font-size: 24px;
+      }
+    
+      .today-weather  #temperature {
+        font-size: 44px;
+        font-weight: 500;
+        margin-top: -50px;
+      }
+      .today-weather #weather-icon {
+        width: 50px;
+      }
+      .today-weather .today-info {
+        color: rgba(255, 255, 255, 0.7);
+        width: 220px;
+        text-align: left;
+        padding: 0px 6px;
+      }
+      #decription::first-letter {
+        text-transform: uppercase;
+      }
+      .future-container {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.1);
+      border-radius: 0px 0px 10px 10px;
+      text-align: center;
+    }
+    
+    .future-info {
+      flex: 1 0 20%;
+      margin: 0px 0px;
+      padding: 0px 0px;
+    }
+    
+    #future-date {
+      font-size: 13px;
+      margin-top: 10px;
+    }
+    
+    #future-icon {
+      margin: 5px 20px 0px 20px;
+      max-width: 50px;
+    }
+    
+    #future-temp {
+      font-weight: 500;
+      margin-top: -15px;
+    }
+    
+    #future-wind {
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 13px;
+      margin-top: -25px;
+    }
+    textarea{
+        height:150%;
+        width:120%;
+        border: lightblue;
+        border-radius: 3px;
+    }
+   
+        </style>
+      </head>
+      
+      
+      <body ng-app="weatherApp" ng-cloak ng-controller="weatherController" data-ng-init="init()">
+        <!-- TAKES USER INPUT AND FINDS CITY -->
+        
+        <div class="container">
+          <div class="search">
+            <form ng-submit="findCity()">
+              <input type="text"
+                     ng-model="writtenCity"
+                     name="text"
+                     placeholder="Enter city..." autocomplete="off"/>
+              <button id="find" ng-click="findCity()">
+                <span class="material-icons">search</span>
+              </button>
+            </form>
+      
+            <!-- DETECTS CITY AUTOMATICALLY -->
+            <button id="locate" ng-click="findAutomatic()">
+              <span class="material-icons">my_location</span>
+            </button>
+          </div>
+      
+      
+          <!-- SHOWS A CURRENT WEATHER -->
+          <div class="today-weather">
+            <div class="today-main">
+              <div id="city-name">{{cityName}}</div>
+              <div id="date">{{date * 1000 | date: "yyyy-MM-dd"}}</div>
+              <img ng-src={{icon}}
+                   id="weather-icon"
+                   alt=""/>
+              <div id="temperature"><p>{{temperature}} &#176;C</p></div>
+            </div>
+            <div class="today-info">
+              
+              <div><p>Feels Like <br>{{feelsLike}} &#176;C</p></div><br>
+              <div><p>Wind speed <br>{{wind}} m/s</p></div>
+            </div>
+          </div>
+      
+      
+          <!-- SHOWS A WEATHER FORECAST FOR THE NEXT 5 DAYS -->
+          <div class="future-container">
+            <!-- DATE -->
+            <div class="future-info" id="future-date" ng-repeat="date in futureData">
+              {{ date.dt * 1000 | date: "yyyy-MM-dd" }}
+            </div>
+            <!-- ICON -->
+            <img ng-repeat="icon in futureData"
+                 ng-src={{iconHttp}}{{icon.weather[0].icon}}{{png}}
+                 class="future-info" id="future-icon"
+                 alt=""/>
+            <!-- TEMPERATURE -->
+            <div class="future-info" id="future-temp" ng-repeat="temp in futureData">
+              <p>{{ temp.temp.day | number:0 }} &#176;C</p>
+            </div>
+            <!-- WIND -->
+            <div class="future-info" id="future-wind" ng-repeat="wind in futureData">
+              <p>{{ wind.wind_speed }} m/s</p>
+            </div>
+          </div>
+      
+        </div>
+        <!--<div>
+            <button id="feedback" type="button" class="btn btn-primary" style="
+            width:90px;
+            height:35px;
+          background-color: #db8c04;
+            
+            color: floralwhite;
+            transform: rotate(90deg);
+            position:absolute;
+            top:58%;
+            left:63.5%;
+            ">
+            Feedback</button>
+        </div>
+        <!---<div class="popup">
+            <div class="popup-content"><textarea>Feedback...</textarea><i class="far fa-times-circle" id="close"></i></div>
+        </div>-->-->
+        <div>
+            <button id="feedback" type="button" class="btn btn-primary" style="
+            width:90px;
+            height:35px;
+            background-color:#6de598;
+            color: floralwhite;
+            position:absolute;
+            top:3%;
+            left:90%;
+            ">
+            <i class="fas fa-sign-out-alt"></i><a href="index.html" style="color:whitesmoke; text-decoration: none;" >Logout</a></button>
+        </div>>
+      
+      
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+        
+      <script>
+          "use strict";
+
+angular.module("weatherApp", [])
+    .controller("weatherController", function($scope, $http) {
+        $scope.writtenCity = "";
+
+        var weatherUrlStar = "https://api.openweathermap.org/data/2.5/onecall?";
+        var weatherUrlEnd = "&lang=lt&units=metric&appid=48507c7efbe2a4ca1b59a199ea479b46";
+
+        var geolocationUrlStart = "https://api.opencagedata.com/geocode/v1/json?q=";
+        var geolocationUrlEnd = "&key=de0441ef4d1f4f5497beb31ef45bd50f&pretty=1";
+
+
+        // FUNCTION TO GET WEATHER USING GIVEN COORDINATES
+        $scope.getWeather = function() {
+            $http({
+                method: "GET",
+                url: $scope.currentUrl
+            }).then(function (data, status) {
+                if(data.data.cod === "400") {
+                    $scope.cityName = "No city found";
+                }
+                else {
+                    // CURRENT WEATHER
+                    $scope.date = data.data.current.dt;
+                    $scope.temperature = Math.round(data.data.current.temp);
+                    $scope.feelsLike = Math.round(data.data.current.feels_like);
+                    $scope.wind = data.data.current.wind_speed;
+                    $scope.description = data.data.current.weather[0].description;
+                    $scope.icon = "https://openweathermap.org/img/wn/" +
+                        data.data.current.weather[0].icon +
+                        ".png";
+
+                    // FUTURE WEATHER
+                    $scope.futureData = data.data.daily.slice(1, 6);
+                    $scope.iconHttp = "https://openweathermap.org/img/wn/";
+                    $scope.png = ".png";
+                }
+            }).error(function (data, status) {
+                $scope.cityName = "No city found";
+            });
+        };
+
+
+        // FUNCTION TO GET LAT&LON FROM CITY NAME (OpenCageData) - GEOCODING
+        $scope.getGeolocation = function() {
+            $http({
+                method: "GET",
+                url: $scope.geocodingUrl
+            }).then(function (data) {
+                if(data.data.results[0].components.hasOwnProperty("city")) {
+                    $scope.cityName = data.data.results[0].components.city;
+                } else if (data.data.results[0].components.hasOwnProperty("state")) {
+                    $scope.cityName = data.data.results[0].components.state;
+                } else {
+                    $scope.cityName = data.data.results[0].components.country;
+                }
+                // REGEX .MATCH METHOD TAKES ONLY THE FIRST NUMBERS UNTIL DEGREE SIGN
+                $scope.latData = data.data.results[0].annotations.DMS.lat.match(/^\d+/);
+                $scope.lonData = data.data.results[0].annotations.DMS.lng.match(/^\d+/);
+
+                $scope.currentUrl = weatherUrlStar +
+                    "lat=" + $scope.latData +
+                    "&lon=" + $scope.lonData +
+                    weatherUrlEnd;
+                $scope.getWeather();
+            }, function error(data) {
+                $scope.cityName = "No city found";
+            });
+        };
+
+
+        // CREATE GEOCODING LINK FROM CITY NAME
+        $scope.findCity = function() {
+            // IF INPUT FIELD IS NOT EMPTY, ACCEPT THE VALUE
+            if ($scope.writtenCity !== "") {
+                $scope.selectedCity = $scope.writtenCity;
+                $scope.geocodingUrl = geolocationUrlStart + $scope.selectedCity + geolocationUrlEnd;
+                $scope.getGeolocation();
+            }
+        };
+
+
+        // AUTOMATICALLY DETECTS LOCATION
+        $scope.findAutomatic = function() {
+            // GETS COORDINATES FROM JSON FILE
+            $http({
+                method: "GET",
+                url: "http://ip-api.com/json"
+            }).then(function (coordinates) {
+                $scope.cityName = coordinates.data.city;
+                $scope.myLat = coordinates.data.lat;
+                $scope.myLon = coordinates.data.lon;
+
+                $scope.currentUrl = weatherUrlStar +
+                    "lat=" + $scope.myLat +
+                    "&lon=" + $scope.myLon +
+                    weatherUrlEnd;
+                $scope.getWeather();
+            }, function error(data) {
+                $scope.cityName = "No coordinates found!";
+            });
+        };
+
+
+        // TRIGGERS TO SHOW DEFAULT WEATHER ON PAGE LOAD
+        $scope.init = function() {
+            //$scope.getWeather();
+            $scope.selectedCity = "chennai";
+            $scope.geocodingUrl = geolocationUrlStart + $scope.selectedCity + geolocationUrlEnd;
+            $scope.getGeolocation();
+        };
+    });
+      </script>
+      </body>
+
+</html>
